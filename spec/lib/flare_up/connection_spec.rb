@@ -88,7 +88,7 @@ describe FlareUp::Connection do
       end
 
       context 'when the error is unknown' do
-        let(:message) { '_'}
+        let(:message) { '_' }
         it 'should be an error' do
           expect { subject.send(:connect) }.to raise_error(FlareUp::UnknownError)
         end
@@ -119,10 +119,30 @@ describe FlareUp::Connection do
     before do
       allow(subject).to receive(:connect).and_return(mock_pg_connection)
     end
-    it 'should execute the specified command' do
-      expect(mock_pg_connection).to receive(:async_exec).with('TEST_STATEMENT')
-      subject.execute('TEST_STATEMENT')
+
+    context 'when a notice receiver is not specified' do
+      before do
+        allow(mock_pg_connection).to receive(:set_notice_processor)
+      end
+      it 'should execute the specified command' do
+        expect(mock_pg_connection).to receive(:async_exec).with('TEST_STATEMENT')
+
+        subject.execute('TEST_STATEMENT')
+      end
     end
+
+    context 'when a notice receiver is specified' do
+      before do
+        allow(mock_pg_connection).to receive(:async_exec)
+        expect(mock_pg_connection).to receive(:set_notice_processor).and_yield('TEST_1').and_yield('TEST 2').and_yield('TEST 3')
+      end
+      before do
+      end
+      it 'should receive notices from postgres' do
+        expect { |b| subject.execute('TEST_STATEMENT', &b) }.to yield_successive_args('TEST_1', 'TEST_2', 'TEST_3')
+      end
+    end
+
   end
 
   describe '#cancel_current_command' do

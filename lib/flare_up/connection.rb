@@ -32,7 +32,8 @@ module FlareUp
       @connect_timeout = 5
     end
 
-    def execute(statement)
+    def execute(statement, notice_processor = nil)
+      connection.set_notice_processor(notice_processor)
       connection.async_exec(statement)
     end
 
