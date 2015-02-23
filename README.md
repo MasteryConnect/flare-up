@@ -132,4 +132,4 @@ Note that these examples assume you have credentials set as environment variable
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE.md).
+This project is Copyright (c) 2015, Sharethrough and licensed under the [MIT License](LICENSE.md).
