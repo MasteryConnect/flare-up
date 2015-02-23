@@ -129,3 +129,7 @@ Note that these examples assume you have credentials set as environment variable
     dev                                                         \
     hearthstone_cards
 ```
+
+## License
+
+This project is licensed under the [MIT License](LICENSE.md).
