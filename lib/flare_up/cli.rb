@@ -19,6 +19,7 @@ module FlareUp
           CLI.env_validator(boot_options, :aws_secret_key, 'AWS_SECRET_ACCESS_KEY')
           CLI.env_validator(boot_options, :redshift_username, 'REDSHIFT_USERNAME')
           CLI.env_validator(boot_options, :redshift_password, 'REDSHIFT_PASSWORD')
+          CLI.env_validator(boot_options, :redshift_port, 'REDSHIFT_PORT', 5439)
         rescue ArgumentError => e
           Emitter.error(e.message)
           CLI.bailout(1)
@@ -37,6 +38,7 @@ module FlareUp
     all_shared_options = [
       [:redshift_username, { :type => :string, :desc => "Required unless ENV['REDSHIFT_USERNAME'] is set." }],
       [:redshift_password, { :type => :string, :desc => "Required unless ENV['REDSHIFT_PASSWORD'] is set." }],
+      [:redshift_port, { :type => :numeric, :desc => "Optional (defaults to 5439)" }],
       [:colorize_output, { :type => :boolean, :desc => 'Should Flare-up colorize its output?', :default => true }]
     ]
     copy_options = [
@@ -108,8 +110,8 @@ in DATABASE_NAME at REDSHIFT_ENDPOINT.
       "FlareUp::Command::#{name}".split("::").reduce(Object) { |a, e| a.const_get e }
     end
 
-    def self.env_validator(options, option_name, env_variable_name)
-      options[option_name] ||= ENVWrap.get(env_variable_name)
+    def self.env_validator(options, option_name, env_variable_name, default_value=nil)
+      options[option_name] ||= (ENVWrap.get(env_variable_name) || default_value)
       return if options[option_name]
       raise ArgumentError, "One of either the --#{option_name} option or the ENV['#{env_variable_name}'] must be set"
     end

@@ -45,7 +45,8 @@ describe FlareUp::Emitter do
             :aws_access_key => 'access',
             :aws_secret_key => 'secret',
             :redshift_username => 'user',
-            :redshift_password => 'pass'
+            :redshift_password => 'pass',
+            :redshift_port => '1234'
           })
       end
       it 'should hide it' do

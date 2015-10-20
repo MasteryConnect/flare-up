@@ -1,7 +1,7 @@
 describe FlareUp::CLI do
 
   let(:required_arguments) { %w(copy TEST_DATA_SOURCE TEST_REDSHIFT_ENDPOINT TEST_DATABASE TEST_TABLE) }
-  let(:required_options) do
+  let(:base_options) do
     {
       :data_source => 'TEST_DATA_SOURCE',
       :redshift_endpoint => 'TEST_REDSHIFT_ENDPOINT',
@@ -9,6 +9,7 @@ describe FlareUp::CLI do
       :table => 'TEST_TABLE',
       :redshift_username => 'TEST_REDSHIFT_USERNAME',
       :redshift_password => 'TEST_REDSHIFT_PASSWORD',
+      :redshift_port => 5439,
       :aws_access_key => 'TEST_AWS_ACCESS_KEY',
       :aws_secret_key => 'TEST_AWS_SECRET_KEY',
       :colorize_output => true
@@ -20,6 +21,7 @@ describe FlareUp::CLI do
     allow(FlareUp::ENVWrap).to receive(:get).with('AWS_SECRET_ACCESS_KEY').and_return('TEST_AWS_SECRET_KEY')
     allow(FlareUp::ENVWrap).to receive(:get).with('REDSHIFT_USERNAME').and_return('TEST_REDSHIFT_USERNAME')
     allow(FlareUp::ENVWrap).to receive(:get).with('REDSHIFT_PASSWORD').and_return('TEST_REDSHIFT_PASSWORD')
+    allow(FlareUp::ENVWrap).to receive(:get).with('REDSHIFT_PORT').and_return(nil)
     allow(FlareUp::Boot).to receive(:boot)
   end
 
@@ -31,9 +33,9 @@ describe FlareUp::CLI do
     end
 
     context 'when no options are specified' do
-      it 'should boot with the proper options' do
+      it 'should boot with the base options' do
         FlareUp::CLI.start(required_arguments)
-        expect(FlareUp::OptionStore.get_options).to eq(required_options)
+        expect(FlareUp::OptionStore.get_options).to eq(base_options)
       end
     end
 
@@ -116,6 +118,31 @@ describe FlareUp::CLI do
               allow(FlareUp::ENVWrap).to receive(:get).with('REDSHIFT_PASSWORD').and_return(nil)
               expect(FlareUp::CLI).to receive(:bailout).with(1)
               FlareUp::CLI.start(required_arguments)
+            end
+          end
+        end
+      end
+
+      describe 'port' do
+        context 'when it is specified on the CLI' do
+          it 'should boot with the proper options' do
+            FlareUp::CLI.start(required_arguments + %w(--redshift_port 1234))
+            expect(FlareUp::OptionStore.get(:redshift_port)).to eq(1234)
+          end
+        end
+        context 'when it is not specified on the CLI' do
+          context 'when it is available via ENV' do
+            it 'should boot with the key from the environment' do
+              allow(FlareUp::ENVWrap).to receive(:get).with('REDSHIFT_PORT').and_return(5678)
+              FlareUp::CLI.start(required_arguments)
+              expect(FlareUp::OptionStore.get(:redshift_port)).to eq(5678)
+            end
+          end
+          context 'when it is not available via ENV' do
+            it 'should boot with the default value' do
+              allow(FlareUp::ENVWrap).to receive(:get).with('REDSHIFT_PORT').and_return(nil)
+              FlareUp::CLI.start(required_arguments)
+              expect(FlareUp::OptionStore.get(:redshift_port)).to eq(5439)
             end
           end
         end
