@@ -32,11 +32,13 @@ module FlareUp
     end
 
     def self.create_connection
+      puts
       FlareUp::Connection.new(
         OptionStore.get(:redshift_endpoint),
         OptionStore.get(:database),
         OptionStore.get(:redshift_username),
-        OptionStore.get(:redshift_password)
+        OptionStore.get(:redshift_password),
+        OptionStore.get(:redshift_port)
       )
     end
     private_class_method :create_connection

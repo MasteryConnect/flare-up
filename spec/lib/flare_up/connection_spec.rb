@@ -1,7 +1,7 @@
 describe FlareUp::Connection do
 
   subject do
-    FlareUp::Connection.new('TEST_HOST', 'TEST_DB_NAME', 'TEST_USER', 'TEST_PASSWORD')
+    FlareUp::Connection.new('TEST_HOST', 'TEST_DB_NAME', 'TEST_USER', 'TEST_PASSWORD', 5439)
   end
 
   let(:mock_pg_connection) { instance_double('PGConn') }
@@ -15,7 +15,7 @@ describe FlareUp::Connection do
 
   describe 'Writers' do
     subject do
-      FlareUp::Connection.new('', '', '', '').tap do |c|
+      FlareUp::Connection.new('', '', '', '', '').tap do |c|
         c.host = 'TEST_HOST'
         c.port = 111
         c.dbname = 'TEST_DB_NAME'

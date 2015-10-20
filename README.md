@@ -34,6 +34,7 @@ Options:
   [--aws-secret-key=AWS_SECRET_KEY]            # Required unless ENV['AWS_SECRET_ACCESS_KEY'] is set.
   [--redshift-username=REDSHIFT_USERNAME]      # Required unless ENV['REDSHIFT_USERNAME'] is set.
   [--redshift-password=REDSHIFT_PASSWORD]      # Required unless ENV['REDSHIFT_PASSWORD'] is set.
+  [--redshift-port=REDSHIFT_PORT]              # Optional (defaults to 5439)
   [--column-list=one two three]                # A space-separated list of columns, should your DATA_SOURCE require it
   [--copy-options=COPY_OPTIONS]                # Appended to the end of the COPY command; enclose "IN QUOTES"
   [--colorize-output], [--no-colorize-output]  # Should Flare-up colorize its output?
@@ -50,6 +51,7 @@ Options:
   [--column-list=COLUMN_LIST]                  # Required. A space-separated list of columns with their data-types, enclose "IN QUOTES"
   [--redshift-username=REDSHIFT_USERNAME]      # Required unless ENV['REDSHIFT_USERNAME'] is set.
   [--redshift-password=REDSHIFT_PASSWORD]      # Required unless ENV['REDSHIFT_PASSWORD'] is set.
+  [--redshift-port=REDSHIFT_PORT]              # Optional (defaults to 5439)
   [--colorize-output], [--no-colorize-output]  # Should Flare-up colorize its output?
                                                # Default: true
 ```
@@ -63,6 +65,7 @@ Usage:
 Options:
   [--redshift-username=REDSHIFT_USERNAME]      # Required unless ENV['REDSHIFT_USERNAME'] is set.
   [--redshift-password=REDSHIFT_PASSWORD]      # Required unless ENV['REDSHIFT_PASSWORD'] is set.
+  [--redshift-port=REDSHIFT_PORT]              # Optional (defaults to 5439)
   [--colorize-output], [--no-colorize-output]  # Should Flare-up colorize its output?
                                                # Default: true
 ```
@@ -76,6 +79,7 @@ Usage:
 Options:
   [--redshift-username=REDSHIFT_USERNAME]      # Required unless ENV['REDSHIFT_USERNAME'] is set.
   [--redshift-password=REDSHIFT_PASSWORD]      # Required unless ENV['REDSHIFT_PASSWORD'] is set.
+  [--redshift-port=REDSHIFT_PORT]              # Optional (defaults to 5439)
   [--colorize-output], [--no-colorize-output]  # Should Flare-up colorize its output?
                                                # Default: true
 ```

@@ -100,7 +100,8 @@ describe FlareUp::Boot do
           :redshift_endpoint => 'TEST_REDSHIFT_ENDPOINT',
           :database => 'TEST_DATABASE',
           :redshift_username => 'TEST_REDSHIFT_USERNAME',
-          :redshift_password => 'TEST_REDSHIFT_PASSWORD'
+          :redshift_password => 'TEST_REDSHIFT_PASSWORD',
+          :redshift_port => 5439
         }
       )
     end
@@ -111,6 +112,7 @@ describe FlareUp::Boot do
       expect(connection.dbname).to eq('TEST_DATABASE')
       expect(connection.user).to eq('TEST_REDSHIFT_USERNAME')
       expect(connection.password).to eq('TEST_REDSHIFT_PASSWORD')
+      expect(connection.port).to eq(5439)
     end
   end
 
