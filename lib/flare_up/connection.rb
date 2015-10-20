@@ -54,7 +54,7 @@ module FlareUp
           when /nodename nor servname provided, or not known/
             raise HostUnknownOrInaccessibleError, "Host unknown or unreachable: #{@host}"
           when /timeout expired/
-            raise TimeoutError, "Timeout connecting to the database (have you checked your Redshift security groups?), #{@port}"
+            raise TimeoutError, "Timeout connecting to the database (have you checked your Redshift security groups?)"
           when /database ".+" does not exist/
             raise NoDatabaseError, "Database #{@dbname} does not exist"
           when /password authentication failed for user/
