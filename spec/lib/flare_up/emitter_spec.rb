@@ -44,13 +44,14 @@ describe FlareUp::Emitter do
         FlareUp::OptionStore.store_options({
             :aws_access_key => 'access',
             :aws_secret_key => 'secret',
+            :aws_token => 'token',
             :redshift_username => 'user',
             :redshift_password => 'pass',
             :redshift_port => '1234'
           })
       end
       it 'should hide it' do
-        expect(FlareUp::Emitter.send(:sanitize, 'accesssecretuserpass')).to eq('REDACTEDREDACTEDREDACTEDREDACTED')
+        expect(FlareUp::Emitter.send(:sanitize, 'accesssecrettokenuserpass')).to eq('REDACTEDREDACTEDREDACTEDREDACTEDREDACTED')
       end
     end
 

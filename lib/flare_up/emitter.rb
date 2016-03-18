@@ -5,6 +5,7 @@ module FlareUp
     RISKY_OPTIONS = [
       :aws_access_key,
       :aws_secret_key,
+      :aws_token,
       :redshift_username,
       :redshift_password
     ]
