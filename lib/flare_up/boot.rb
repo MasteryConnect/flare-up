@@ -48,7 +48,8 @@ module FlareUp
         OptionStore.get(:table),
         OptionStore.get(:data_source),
         OptionStore.get(:aws_access_key),
-        OptionStore.get(:aws_secret_key)
+        OptionStore.get(:aws_secret_key),
+        OptionStore.get(:aws_token)
       )
       cmd.columns = OptionStore.get(:column_list) if OptionStore.get(:column_list)
       cmd.options = OptionStore.get(:copy_options) if OptionStore.get(:copy_options)

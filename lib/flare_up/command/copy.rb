@@ -5,13 +5,15 @@ module FlareUp
       attr_reader :data_source
       attr_reader :aws_access_key_id
       attr_reader :aws_secret_access_key
+      attr_reader :aws_token
       attr_accessor :options
       attr_reader :columns
 
-      def initialize(table_name, data_source, aws_access_key_id, aws_secret_access_key)
+      def initialize(table_name, data_source, aws_access_key_id, aws_secret_access_key, aws_token=nil)
         @data_source = data_source
         @aws_access_key_id = aws_access_key_id
         @aws_secret_access_key = aws_secret_access_key
+        @aws_token = aws_token
         @options = ''
         @columns = []
         super
@@ -35,7 +37,11 @@ module FlareUp
       end
 
       def get_credentials
-        "aws_access_key_id=#{@aws_access_key_id};aws_secret_access_key=#{@aws_secret_access_key}"
+        if @aws_token.nil? || @aws_token.strip.empty?
+          "aws_access_key_id=#{@aws_access_key_id};aws_secret_access_key=#{@aws_secret_access_key}"
+        else
+          "aws_access_key_id=#{@aws_access_key_id};aws_secret_access_key=#{@aws_secret_access_key};token=#{@aws_token}"
+        end
       end
     end
   end

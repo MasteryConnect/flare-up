@@ -32,6 +32,7 @@ Usage:
 Options:
   [--aws-access-key=AWS_ACCESS_KEY]            # Required unless ENV['AWS_ACCESS_KEY_ID'] is set.
   [--aws-secret-key=AWS_SECRET_KEY]            # Required unless ENV['AWS_SECRET_ACCESS_KEY'] is set.
+  [--aws-secret-key=AWS_TOKEN]                 # Required for temporary credentials unless ENV['AWS_TOKEN'] is set.
   [--redshift-username=REDSHIFT_USERNAME]      # Required unless ENV['REDSHIFT_USERNAME'] is set.
   [--redshift-password=REDSHIFT_PASSWORD]      # Required unless ENV['REDSHIFT_PASSWORD'] is set.
   [--redshift-port=REDSHIFT_PORT]              # Optional (defaults to 5439)

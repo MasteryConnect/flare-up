@@ -12,6 +12,7 @@ describe FlareUp::CLI do
       :redshift_port => 5439,
       :aws_access_key => 'TEST_AWS_ACCESS_KEY',
       :aws_secret_key => 'TEST_AWS_SECRET_KEY',
+      :aws_token => nil,
       :colorize_output => true
     }
   end
@@ -19,6 +20,7 @@ describe FlareUp::CLI do
   before do
     allow(FlareUp::ENVWrap).to receive(:get).with('AWS_ACCESS_KEY_ID').and_return('TEST_AWS_ACCESS_KEY')
     allow(FlareUp::ENVWrap).to receive(:get).with('AWS_SECRET_ACCESS_KEY').and_return('TEST_AWS_SECRET_KEY')
+    allow(FlareUp::ENVWrap).to receive(:get).with('AWS_TOKEN').and_return(nil)
     allow(FlareUp::ENVWrap).to receive(:get).with('REDSHIFT_USERNAME').and_return('TEST_REDSHIFT_USERNAME')
     allow(FlareUp::ENVWrap).to receive(:get).with('REDSHIFT_PASSWORD').and_return('TEST_REDSHIFT_PASSWORD')
     allow(FlareUp::ENVWrap).to receive(:get).with('REDSHIFT_PORT').and_return(nil)
@@ -199,6 +201,26 @@ describe FlareUp::CLI do
             end
             it 'should be an error' do
               FlareUp::CLI.start(required_arguments)
+            end
+          end
+        end
+      end
+
+      describe 'token' do
+        context 'when an AWS token is specified' do
+          it 'should boot with the proper options' do
+            FlareUp::CLI.start(required_arguments + %w(--aws_token CLI_KEY))
+            expect(FlareUp::OptionStore.get(:aws_token)).to eq('CLI_KEY')
+          end
+        end
+        before do
+          allow(FlareUp::ENVWrap).to receive(:get).with('AWS_TOKEN').and_return('TEST_AWS_TOKEN')
+        end
+        context 'when an AWS token is not specified' do
+          context 'when the token is available via ENV' do
+            it 'should boot with the token from the environment' do
+              FlareUp::CLI.start(required_arguments)
+              expect(FlareUp::OptionStore.get(:aws_token)).to eq('TEST_AWS_TOKEN')
             end
           end
         end

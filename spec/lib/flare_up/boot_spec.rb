@@ -137,6 +137,16 @@ describe FlareUp::Boot do
       expect(command.aws_secret_access_key).to eq('TEST_SECRET_KEY')
     end
 
+    context 'when aws token is provided' do
+      before do
+        FlareUp::OptionStore.store_option(:aws_token, 'TEST_TOKEN')
+      end
+      it 'should create a proper copy command' do
+        command = FlareUp::Boot.send(:create_command, FlareUp::Command::Copy)
+        expect(command.aws_token).to eq('TEST_TOKEN')
+      end
+    end
+
     context 'when columns are specified' do
       before do
         FlareUp::OptionStore.store_option(:column_list, ['c1'])
